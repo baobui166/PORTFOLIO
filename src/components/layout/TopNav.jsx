@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Icon from "../ui/Icon";
+import { ONBOARDING_OPEN_EVENT } from "../ui/OnboardingTour";
 
 const terminalCommands = [
   {
@@ -112,6 +113,11 @@ export default function TopNav({ command }) {
     }
 
     navigate(item.path);
+  }
+
+  function replayGuide() {
+    setActivePanel(null);
+    window.dispatchEvent(new Event(ONBOARDING_OPEN_EVENT));
   }
 
   return (
@@ -238,6 +244,16 @@ export default function TopNav({ command }) {
               label="Reduce Motion"
               onChange={() => toggleSetting("reduceMotion")}
             />
+            <button
+              className="mt-3 flex w-full items-center justify-between rounded-lg bg-surface-container-high px-3 py-2 text-left transition-colors hover:bg-surface-container-highest"
+              onClick={replayGuide}
+              type="button"
+            >
+              <span className="font-mono text-[11px] uppercase tracking-widest text-primary">
+                Replay Guide
+              </span>
+              <Icon name="replay" className="text-lg text-primary-container" />
+            </button>
           </div>
         </div>
       ) : null}

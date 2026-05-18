@@ -5,6 +5,7 @@ import FeedsPage from "./pages/FeedsPage";
 import InitPage from "./pages/InitPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProjectsPage from "./pages/ProjectsPage";
+import OnboardingTour from "./components/ui/OnboardingTour";
 
 export default function App() {
   const navigate = useNavigate();
@@ -24,12 +25,15 @@ export default function App() {
   }, [navigate]);
 
   return (
-    <Routes>
-      <Route path="/" element={<InitPage />} />
-      <Route path="/projects" element={<ProjectsPage />} />
-      <Route path="/feeds" element={<FeedsPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/contact" element={<ContactPage />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<InitPage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/feeds" element={<FeedsPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/contact" element={<ContactPage />} />
+      </Routes>
+      <OnboardingTour />
+    </>
   );
 }
