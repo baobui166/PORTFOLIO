@@ -65,4 +65,4 @@ src/
 
 ## Home Preview
 
-![Architect OS home screen](/home.png)
+![Architect OS home screen](public/home.png)
