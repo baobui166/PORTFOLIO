@@ -54,7 +54,7 @@ export default function ProfilePage() {
           </div>
           <a
             className="group flex w-max items-center gap-3 rounded-xl bg-gradient-to-r from-primary to-primary-container px-6 py-3 font-headline text-xs font-bold uppercase tracking-widest text-on-primary transition-all hover:shadow-[0_0_25px_rgba(0,245,255,0.4)] active:scale-95"
-            href="/cv.pdf"
+            href={profile.cvPath}
             download="BuiChiBao-Fullstack-Developer.pdf"
           >
             <Icon name="download" className="text-sm" />
@@ -68,12 +68,11 @@ export default function ProfilePage() {
               <div className="relative aspect-square overflow-hidden rounded-2xl border border-outline-variant/10 bg-surface-container-low">
                 <img
                   alt="Close-up artistic portrait of a tech professional in a dark environment with blue and magenta rim lighting"
-                  className="h-full w-full object-cover brightness-90 contrast-125 grayscale transition-all duration-700 hover:grayscale-0"
+                  className="h-full w-full object-cover"
                   src={profile.portrait}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                 <div className="absolute bottom-4 left-4 rounded bg-background/80 px-2 py-1 font-headline text-[10px] text-primary-fixed-dim backdrop-blur-md">
-                  ID: 0x92F1_USER_ARCH
+                  {profile.identifier}
                 </div>
               </div>
             </div>
@@ -96,7 +95,7 @@ export default function ProfilePage() {
                 </span>
                 <p className="flex items-center gap-2 text-sm font-medium text-on-surface-variant">
                   <Icon name="circle" className="text-sm text-primary" />
-                  Open for strategic collaborations
+                  {profile.availability}
                 </p>
               </div>
             </div>
