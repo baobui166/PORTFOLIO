@@ -56,9 +56,15 @@ export default function InitPage() {
               Press a key to explore
             </p>
             <div className="mt-4 flex justify-center gap-4">
-              <span className="h-6 w-1 bg-primary-container/20" />
-              <span className="h-6 w-1 bg-primary-container/20" />
-              <span className="h-6 w-1 bg-primary-container/20" />
+              <span className="explore-signal-bar h-6 w-1 bg-primary-container" />
+              <span
+                className="explore-signal-bar h-6 w-1 bg-primary-container"
+                style={{ animationDelay: "0.18s" }}
+              />
+              <span
+                className="explore-signal-bar h-6 w-1 bg-primary-container"
+                style={{ animationDelay: "0.36s" }}
+              />
             </div>
           </div>
         </section>
