@@ -1,4 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import ContactPage from "./pages/ContactPage";
 import FeedsPage from "./pages/FeedsPage";
 import InitPage from "./pages/InitPage";
@@ -6,6 +7,22 @@ import ProfilePage from "./pages/ProfilePage";
 import ProjectsPage from "./pages/ProjectsPage";
 
 export default function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key !== "Escape" || event.repeat) {
+        return;
+      }
+
+      navigate("/");
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [navigate]);
+
   return (
     <Routes>
       <Route path="/" element={<InitPage />} />

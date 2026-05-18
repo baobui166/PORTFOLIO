@@ -1,5 +1,22 @@
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PageShell from "../components/layout/PageShell";
 import Keyboard from "../components/ui/Keyboard";
+
+const keyboardShortcutRoutes = {
+  A: "/projects",
+  C: "/contact",
+  ESC: "/",
+  P: "/profile",
+  S: "/feeds",
+};
+
+const physicalShortcutRoutes = {
+  A: "/projects",
+  C: "/contact",
+  P: "/profile",
+  S: "/feeds",
+};
 
 function StatusIndicators() {
   return (
@@ -29,6 +46,63 @@ function StatusIndicators() {
 }
 
 export default function InitPage() {
+  const navigate = useNavigate();
+  const [activeKey, setActiveKey] = useState(null);
+  const clearActiveKeyRef = useRef(null);
+
+  function flashKey(key) {
+    window.clearTimeout(clearActiveKeyRef.current);
+    setActiveKey(key);
+    clearActiveKeyRef.current = window.setTimeout(() => {
+      setActiveKey(null);
+    }, 220);
+  }
+
+  function normalizeKey(rawKey) {
+    return rawKey === "Escape" ? "ESC" : rawKey.toUpperCase();
+  }
+
+  function triggerVisualKey(rawKey) {
+    const normalizedKey = normalizeKey(rawKey);
+
+    flashKey(normalizedKey);
+
+    if (keyboardShortcutRoutes[normalizedKey]) {
+      navigate(keyboardShortcutRoutes[normalizedKey]);
+    }
+  }
+
+  function triggerPhysicalKey(rawKey) {
+    const normalizedKey = normalizeKey(rawKey);
+
+    if (normalizedKey === "ESC") {
+      return;
+    }
+
+    flashKey(normalizedKey);
+
+    if (physicalShortcutRoutes[normalizedKey]) {
+      navigate(physicalShortcutRoutes[normalizedKey]);
+    }
+  }
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.repeat) {
+        return;
+      }
+
+      triggerPhysicalKey(event.key);
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.clearTimeout(clearActiveKeyRef.current);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  });
+
   return (
     <PageShell className="min-h-screen overflow-hidden bg-background text-on-background">
       <div className="pointer-events-none fixed inset-0 grid-background" />
@@ -68,7 +142,7 @@ export default function InitPage() {
             </div>
           </div>
         </section>
-        <Keyboard />
+        <Keyboard activeKey={activeKey} onKeyTrigger={triggerVisualKey} />
       </main>
       <StatusIndicators />
     </PageShell>

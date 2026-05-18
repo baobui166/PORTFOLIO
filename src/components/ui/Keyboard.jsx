@@ -14,7 +14,7 @@ function spanForKey(key) {
   return "col-span-1";
 }
 
-export default function Keyboard() {
+export default function Keyboard({ activeKey, onKeyTrigger }) {
   return (
     <div className="keyboard-perspective mt-auto w-full max-w-5xl">
       <div className="keyboard-chassis relative overflow-hidden rounded-[32px] border-t border-outline-variant/30 bg-surface-container-low p-8 pb-12">
@@ -22,29 +22,45 @@ export default function Keyboard() {
         <div className="grid grid-cols-12 gap-2 md:gap-3">
           {keyboardRows.flat().map((key, index) => {
             const highlighted = highlightedKeys.has(key);
-            return (
-              <div
-                key={`${key || "space"}-${index}`}
-                className={`${spanForKey(key)} key-cap relative flex h-12 items-center justify-center rounded-lg border md:h-16 ${
-                  highlighted
-                    ? "neon-glow border-primary-container/50 bg-primary-container/10"
-                    : "border-outline-variant/10"
-                }`}
-              >
-                {key ? (
-                  <span
-                    className={`font-headline text-[10px] ${
-                      highlighted
-                        ? "text-sm font-bold text-primary-container"
-                        : "text-on-surface-variant"
-                    }`}
-                  >
-                    {key}
-                  </span>
-                ) : (
+            const active = activeKey === key;
+            const keyClass = `${spanForKey(key)} key-cap relative flex h-12 items-center justify-center rounded-lg border md:h-16 ${
+              active
+                ? "neon-glow border-primary-container bg-primary-container/20 shadow-[0_0_28px_rgba(0,245,255,0.45)]"
+                : highlighted
+                  ? "neon-glow border-primary-container/50 bg-primary-container/10"
+                  : "border-outline-variant/10"
+            }`;
+
+            if (!key) {
+              return (
+                <div
+                  key={`${key || "space"}-${index}`}
+                  className={keyClass}
+                  aria-hidden="true"
+                >
                   <span className="absolute inset-x-4 top-1/2 h-px -translate-y-1/2 bg-primary-container/20" />
-                )}
-              </div>
+                </div>
+              );
+            }
+
+            return (
+              <button
+                key={`${key || "space"}-${index}`}
+                aria-label={`Trigger ${key} key`}
+                className={`${keyClass} active:scale-[0.98]`}
+                onClick={() => onKeyTrigger?.(key)}
+                type="button"
+              >
+                <span
+                  className={`font-headline text-[10px] ${
+                    active || highlighted
+                      ? "text-sm font-bold text-primary-container"
+                      : "text-on-surface-variant"
+                  }`}
+                >
+                  {key}
+                </span>
+              </button>
             );
           })}
         </div>
