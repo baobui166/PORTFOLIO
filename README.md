@@ -51,18 +51,6 @@ Start the development server:
 npm run dev
 ```
 
-Build for production:
-
-```bash
-npm run build
-```
-
-Preview the production build:
-
-```bash
-npm run preview
-```
-
 ## Project Structure
 
 ```text
@@ -74,3 +62,7 @@ src/
   pages/           Route pages for home, profile, projects, feeds, contact
   styles/          Global Tailwind and custom CSS
 ```
+
+## Home Preview
+
+![Architect OS home screen](/home.png)
