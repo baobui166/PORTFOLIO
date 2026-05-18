@@ -5,6 +5,8 @@
 @layer base {
   html {
     background: #10141a;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   body {
@@ -14,6 +16,14 @@
     background: #10141a;
     color: #dfe2eb;
     font-family: "Inter", sans-serif;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    display: none;
   }
 
   button,
