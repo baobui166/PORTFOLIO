@@ -11,6 +11,42 @@ const variantClasses = {
   horizontal: "md:col-span-6",
 };
 
+function ProjectTags({ tags, compact = false, className = "" }) {
+  return (
+    <div
+      className={
+        compact
+          ? "flex flex-wrap gap-2"
+          : `w-full max-w-xs rounded-lg bg-surface-container-lowest/70 p-3 ring-1 ring-outline-variant/10 md:shrink-0 ${className}`
+      }
+    >
+      {!compact ? (
+        <span className="mb-3 block font-mono text-[10px] uppercase tracking-[0.2em] text-secondary">
+          Tech_Stack
+        </span>
+      ) : null}
+      <div
+        className={
+          compact ? "flex flex-wrap gap-2" : "grid grid-cols-2 gap-2"
+        }
+      >
+        {tags.map((tag) => (
+          <Chip
+            key={tag}
+            className={
+              compact
+                ? ""
+                : "justify-center text-center text-[10px] tracking-tighter"
+            }
+          >
+            {tag}
+          </Chip>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ProjectCard({ project }) {
   if (project.variant === "featured") {
     return (
@@ -35,19 +71,25 @@ function ProjectCard({ project }) {
                 {project.description}
               </p>
             </div>
-            <div className="flex gap-2">
-              {project.tags.map((tag) => (
-                <Chip key={tag}>{tag}</Chip>
-              ))}
-            </div>
+            <ProjectTags tags={project.tags} />
           </div>
           <div className="flex flex-wrap items-center gap-4">
-            <button className="rounded-md bg-gradient-to-r from-primary to-primary-container px-6 py-2 font-headline text-sm font-bold tracking-tighter text-on-primary transition-all hover:shadow-[0_0_20px_rgba(0,245,255,0.3)]">
-              EXEC_REMOTE
-            </button>
-            <button className="font-mono text-xs text-primary decoration-secondary transition-all hover:underline">
+            <a
+              className="rounded-md bg-gradient-to-r from-primary to-primary-container px-6 py-2 font-headline text-sm font-bold tracking-tighter text-on-primary transition-all hover:shadow-[0_0_20px_rgba(0,245,255,0.3)]"
+              href={project.repository}
+              rel="noreferrer"
+              target="_blank"
+            >
+              OPEN_REPO
+            </a>
+            <a
+              className="font-mono text-xs text-primary decoration-secondary transition-all hover:underline"
+              href={project.repository}
+              rel="noreferrer"
+              target="_blank"
+            >
               VIEW_SOURCE_CODE
-            </button>
+            </a>
           </div>
         </div>
       </GlassPanel>
@@ -74,15 +116,16 @@ function ProjectCard({ project }) {
             <p className="mt-2 text-sm text-on-surface-variant">
               {project.description}
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <Chip key={tag}>{tag}</Chip>
-              ))}
-            </div>
+            <ProjectTags tags={project.tags} className="mt-4 max-w-none" />
           </div>
-          <button className="mt-6 w-full rounded-md bg-surface-container-high py-2 font-headline text-xs font-bold tracking-widest text-on-surface transition-colors hover:bg-surface-container-highest">
-            INITIALIZE
-          </button>
+          <a
+            className="mt-6 w-full rounded-md bg-surface-container-high py-2 text-center font-headline text-xs font-bold tracking-widest text-on-surface transition-colors hover:bg-surface-container-highest"
+            href={project.repository}
+            rel="noreferrer"
+            target="_blank"
+          >
+            OPEN_REPO
+          </a>
         </div>
       </GlassPanel>
     );
@@ -113,9 +156,15 @@ function ProjectCard({ project }) {
             <span className="font-mono text-[10px] tracking-widest text-secondary">
               {project.status}
             </span>
-            <button className="text-primary-container" aria-label={project.title}>
+            <a
+              className="text-primary-container"
+              href={project.repository}
+              rel="noreferrer"
+              target="_blank"
+              aria-label={project.title}
+            >
               <Icon name={project.icon} />
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -125,7 +174,7 @@ function ProjectCard({ project }) {
 
 export default function ProjectsPage() {
   return (
-    <PageShell className="min-h-screen bg-surface text-on-surface" command="search_repo --deep">
+    <PageShell className="min-h-screen bg-surface text-on-surface" command="scan_cv_projects --verified">
       <main className="mx-auto max-w-7xl px-6 pb-32 pt-24 md:px-12">
         <header className="mb-16">
           <div className="mb-2 flex flex-col gap-2 md:flex-row md:items-baseline md:gap-4">
@@ -137,9 +186,9 @@ export default function ProjectsPage() {
             </span>
           </div>
           <p className="max-w-2xl text-lg leading-relaxed text-on-surface-variant">
-            A high-fidelity audit of architectural systems and neural
-            interfaces. Prototyping the future through tonal shifts and
-            technical precision.
+            A focused registry of real projects from my software engineering
+            path: a full-stack e-commerce API system and a hotel operations
+            dashboard built with modern React workflows.
           </p>
         </header>
         <section className="grid grid-cols-1 gap-6 md:grid-cols-12">
@@ -157,7 +206,7 @@ export default function ProjectsPage() {
               <span className="animate-pulse">_</span>
             </div>
             <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
-              Press [CMD+K] to browse terminal history
+              Verified from CV project history and linked GitHub repositories
             </p>
           </div>
         </div>
